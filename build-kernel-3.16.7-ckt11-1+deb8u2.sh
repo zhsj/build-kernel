@@ -112,7 +112,7 @@ patch -p1 -l << "EOF"
  # CONFIG_FONTS is not set
 EOF
 
-make -j8 deb-pkg LOCALVERSION=-ustclugsigned DEBFULLNAME="Shengjing Zhu" \
+make -j8 deb-pkg LOCALVERSION=-ustclugsigned+deb8u2 DEBFULLNAME="Shengjing Zhu" \
 	DEBEMAIL=zsj950618@gmail.com
 
 mkdir -p /repo/debs
