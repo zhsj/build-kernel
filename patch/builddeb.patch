@@ -1,0 +1,45 @@
+From 64178cb62c329350fe06622cd215264d849b27b1 Mon Sep 17 00:00:00 2001
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Date: Mon, 16 Mar 2015 11:20:54 +0300
+Subject: builddeb: fix stripped module signatures if CONFIG_DEBUG_INFO and
+ CONFIG_MODULE_SIG_ALL are set
+
+If CONFIG_MODULE_SIG_ALL is set, then user expects that all modules are
+automatically signed in the result package, as it's for rpm-pkg, binrpm-pkg,
+tar, tar-*. For deb-pkg this is correct only if CONFIG_DEBUG_INFO
+is NOT set. In that case deb-package contains signed modules.
+
+But if CONFIG_DEBUG_INFO is set, builddeb creates separate package with
+debug information. To do that, debug information from all modules
+is copied into separate files by objcopy. And loadable kernel modules are
+stripped afterwards. Stripping removes previously (during modules_install)
+added signatures from loadable kernel modules. Therefore final deb-package
+contains unsigned modules despite of set option CONFIG_MODULE_SIG_ALL.
+
+This patch resigns all stripped modules if CONFIG_MODULE_SIG_ALL is set
+to solve this problem.
+
+Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Acked-by: maximilian attems <max@stro.at>
+Signed-off-by: Michal Marek <mmarek@suse.cz>
+
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index fccabe5..222770c 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -166,6 +166,12 @@ if grep -q '^CONFIG_MODULES=y' $KCONFIG_CONFIG ; then
+ 			# then add a link to those
+ 			$OBJCOPY --add-gnu-debuglink=$dbg_dir/usr/lib/debug/$module $tmpdir/$module
+ 		done
++
++		# resign stripped modules
++		MODULE_SIG_ALL="$(grep -s '^CONFIG_MODULE_SIG_ALL=y' $KCONFIG_CONFIG || true)"
++		if [ -n "$MODULE_SIG_ALL" ]; then
++			INSTALL_MOD_PATH="$tmpdir" $MAKE KBUILD_SRC= modules_sign
++		fi
+ 	fi
+ fi
+ 
+-- 
+cgit v0.10.2
+

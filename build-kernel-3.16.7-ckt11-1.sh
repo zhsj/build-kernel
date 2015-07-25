@@ -4,6 +4,7 @@
 # build result store in /repo         #
 # run as root                         #
 # provide ~/gpgkey, ~/aptly.conf      #
+#         ~/builddeb.patch            #
 #######################################
 
 
@@ -22,23 +23,7 @@ xzcat /usr/src/linux-config-3.16/config.amd64_none_amd64.xz > ~/linux-source-3.1
 cd linux-source-3.16
 
 # to fix script/packags/builddeb
-patch -p1 -l << "EOF"
---- linux-source-3.16-org/scripts/package/builddeb      2015-05-24 17:51:39.000000000 +0000
-+++ linux-source-3.16/scripts/package/builddeb  2015-07-05 04:26:37.305859198 +0000
-@@ -171,8 +171,12 @@
-                        # then add a link to those
-                        $OBJCOPY --add-gnu-debuglink=$dbg_dir/usr/lib/debug/$module $tmpdir/$module
-                done
-        fi
-+       for module in $(find $tmpdir/lib/modules/ -name *.ko -printf '%P\n'); do
-+               module=lib/modules/$module
-+               $objtree/scripts/sign-file sha512 $objtree/signing_key.priv $objtree/signing_key.x509 $tmpdir/$module
-+       done
- fi
- 
- if [ "$ARCH" != "um" ]; then
-        $MAKE headers_check KBUILD_SRC=
-EOF
+patch -p1 < ~/builddeb.patch
 
 # add signing module config
 patch -p1 -l << "EOF"
