@@ -44,5 +44,5 @@ cp ~/aptly.conf ~/.aptly.conf
 aptly repo create -architectures="amd64" -distribution="jessie" linux-ustclugsigned
 aptly repo add linux-ustclugsigned /repo/debs
 aptly snapshot create linux-3.16.7-ckt11-1+deb8u2 from repo linux-ustclugsigned
-aptly publish snapshot linux-3.16.7-ckt11-1+deb8u2
+aptly publish switch jessie linux-3.16.7-ckt11-1+deb8u2
 
