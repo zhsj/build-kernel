@@ -33,16 +33,13 @@ patch < ~/config.patch
 make -j8 deb-pkg LOCALVERSION=-ustclugsigned+deb8u2 DEBFULLNAME="Shengjing Zhu" \
 	DEBEMAIL=zsj950618@gmail.com
 
-mkdir -p /repo/debs
-mv ~/*.deb /repo/debs/
-
 # to add gpg private key
 gpg --import ~/gpgkey
 
 mkdir -p /repo/aptly
 cp ~/aptly.conf ~/.aptly.conf
 aptly repo create -architectures="amd64" -distribution="jessie" linux-ustclugsigned
-aptly repo add linux-ustclugsigned /repo/debs
+aptly repo add linux-ustclugsigned ~/*.deb
 aptly snapshot create linux-3.16.7-ckt11-1+deb8u2 from repo linux-ustclugsigned
 aptly publish switch jessie linux-3.16.7-ckt11-1+deb8u2
 
