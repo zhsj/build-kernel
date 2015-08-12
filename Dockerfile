@@ -7,6 +7,6 @@ MAINTAINER SJ Zhu <zsj950618@gmail.com>
 #volume
 VOLUME ["/repo"]
 
-ADD build-kernel-3.16.7-ckt11-1+deb8u2.sh secrets/* patch/* aptly.conf /root/
+ADD build-scripts current-build.sh secrets/* patch/* aptly.conf /root/
 
-CMD /root/build-kernel-3.16.7-ckt11-1+deb8u2.sh
+CMD /root/current-build.sh
