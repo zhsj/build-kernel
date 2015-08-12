@@ -7,6 +7,6 @@ MAINTAINER SJ Zhu <zsj950618@gmail.com>
 #volume
 VOLUME ["/repo"]
 
-ADD build-scripts current-build.sh secrets/* patch/* aptly.conf /root/
+ADD current-build.sh secrets/* patch/* aptly.conf /root/
 
 CMD /root/current-build.sh
