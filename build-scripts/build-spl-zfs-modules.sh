@@ -16,9 +16,9 @@ export KEY=/build/signing_key_extra.priv
 export CERT=/build/signing_key_extra.x509
 
 cd spl
-patch < add-spl-sign.patch
+patch -p1 < add-spl-sign.patch
 ./debian/rules override_dh_binary-modules
 
 cd zfs
-patch < add-zfs-sign.patch
+patch -p1 < add-zfs-sign.patch
 ./debian/rules override_dh_binary-modules
