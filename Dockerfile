@@ -1,12 +1,11 @@
 # Build Linux Kernel
-# Version 3.16.7-ckt11-1+deb8u2
-FROM debian:jessie
+FROM debian:stretch
 
 MAINTAINER SJ Zhu <zsj950618@gmail.com>
 
 #volume
 VOLUME ["/repo"]
 
-ADD current-build.sh secrets/* patch/* aptly.conf /root/
+ADD current-build.sh misc/* secrets/* patch/* /root/
 
 CMD /root/current-build.sh
