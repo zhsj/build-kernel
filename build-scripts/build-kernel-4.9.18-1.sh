@@ -29,5 +29,5 @@ cp ~/x509.genkey ./certs
 
 cp ~/signing_key_extra.x509 ./certs
 
-make -j8 deb-pkg LOCALVERSION=-ustclugsigned-1 DEBFULLNAME="Shengjing Zhu" \
+make -j8 deb-pkg LOCALVERSION=-ustclugsigned DEBFULLNAME="Shengjing Zhu" \
 	DEBEMAIL=zsj950618@gmail.com
