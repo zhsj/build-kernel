@@ -1,0 +1,10 @@
+--- debian/spl-modules-_KVERS_.postinst.in.old	2017-04-27 10:39:12.315941508 +0000
++++ debian/spl-modules-_KVERS_.postinst.in	2017-04-27 10:40:19.144023168 +0000
+@@ -2,6 +2,6 @@
+ set -e
+ 
+ # Run depmod after module installation.
+-depmod
++depmod -a _KVERS_
+ 
+ #DEBHELPER#

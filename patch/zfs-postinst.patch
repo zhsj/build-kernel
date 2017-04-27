@@ -1,0 +1,11 @@
+--- debian/zfs-modules-_KVERS_.postinst.in.old	2017-04-27 10:35:12.839647812 +0000
++++ debian/zfs-modules-_KVERS_.postinst.in	2017-04-27 10:44:15.136311292 +0000
+@@ -2,7 +2,7 @@
+ set -e
+ 
+ # Run depmod first
+-depmod
++depmod -a _KVERS_
+ 
+ #DEBHELPER#
+ 
